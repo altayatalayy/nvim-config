@@ -1,33 +1,33 @@
 local dap_status_ok, dap = pcall(require, 'dap')
 if not dap_status_ok then
-	return
+    return
 end
 
 local dapui_status_ok, dapui = pcall(require, 'dapui')
 if not dapui_status_ok then
-	return
+    return
 end
 
 local wk_status_ok, wk = pcall(require, "which-key")
 if not wk_status_ok then
-	return
+    return
 end
 
 -- Register Dap keymaps
 wk.register({
-  ["<leader>d"] = {
-    name = '+DAP',
-    b = {":lua require'dap'.toggle_breakpoint()<CR>", 'toggle_breakpoint'},
-    B = {":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", 'Condtional Break Point'},
-    l = {":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", 'log msg'},
-    r = {":lua require'dap'.repl.open()<CR>", 'REPL'},
-    c = {":lua require'dap'.continue()<CR>", 'continue'},
-    o = {":lua require'dap'.step_over()<CR>", 'step_over'},
-    i = {":lua require'dap'.step_into()<CR>", 'step_into'},
-    u = {":lua require'dap'.step_out()<CR>", 'step_out'},
-    t = {":lua require('dapui').toggle()<CR>", 'toggle ui'}
-  }
-  }, { mode = 'n', silent = true, noremap = true, })
+    ["<leader>d"] = {
+        name = '+DAP',
+        b = { ":lua require'dap'.toggle_breakpoint()<CR>", 'toggle_breakpoint' },
+        B = { ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", 'Condtional Break Point' },
+        l = { ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", 'log msg' },
+        r = { ":lua require'dap'.repl.open()<CR>", 'REPL' },
+        c = { ":lua require'dap'.continue()<CR>", 'continue' },
+        o = { ":lua require'dap'.step_over()<CR>", 'step_over' },
+        i = { ":lua require'dap'.step_into()<CR>", 'step_into' },
+        u = { ":lua require'dap'.step_out()<CR>", 'step_out' },
+        t = { ":lua require('dapui').toggle()<CR>", 'toggle ui' }
+    }
+}, { mode = 'n', silent = true, noremap = true, })
 
 
 
@@ -37,7 +37,7 @@ require('dap-python').setup(vim.fn.stdpath("data") .. "/mason/packages/debugpy/v
 require("nvim-dap-virtual-text").setup()
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
-  dapui.open()
+    dapui.open()
 end
 --[[
 dap.listeners.before.event_terminated["dapui_config"] = function()
@@ -46,4 +46,31 @@ end
 dap.listeners.before.event_exited["dapui_config"] = function()
   dapui.close()
 end
-]]--
+]]
+--
+
+dap.adapters.codelldb = {
+    type = 'server',
+    port = 13000,
+    executable = {
+        command = vim.fn.stdpath('data') .. '/mason/packages/codelldb/codelldb',
+        args = { "--port", 13000 },
+    }
+}
+
+dap.configurations.c = {
+    {
+        name = "Launch file",
+        type = "codelldb",
+        request = "launch",
+        program = function()
+            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+        args = {},
+        runInTerminal = true,
+    },
+}
+
+dap.configurations.cpp = dap.configurations.c
