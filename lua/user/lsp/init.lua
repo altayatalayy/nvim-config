@@ -85,6 +85,8 @@ local servers = {
     'marksman',
     'bashls',
     'ansiblels',
+    'tailwindcss',
+    'astro',
 }
 
 local all_mason = {}

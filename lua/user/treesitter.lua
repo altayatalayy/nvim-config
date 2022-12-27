@@ -48,6 +48,7 @@ require'nvim-treesitter.configs'.setup {
       'comment',
       'norg',
       'help',
+      'astro',
   },
 
   -- Install languages synchronously (only applied to `ensure_installed`)
