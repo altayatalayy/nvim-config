@@ -136,6 +136,27 @@ return packer.startup(function(use)
     }
 
     use {
+        "windwp/nvim-autopairs",
+        config = function()
+            require("nvim-autopairs").setup {}
+            local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+            local cmp = require('cmp')
+            cmp.event:on(
+                'confirm_done',
+                cmp_autopairs.on_confirm_done()
+            )
+        end
+    }
+
+    use {
+        'windwp/nvim-ts-autotag',
+        config = function()
+            require('nvim-ts-autotag').setup()
+        end
+    }
+
+
+    use {
         'lewis6991/gitsigns.nvim',
         --[[ commit = "", ]]
     }
