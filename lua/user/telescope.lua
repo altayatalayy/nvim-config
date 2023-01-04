@@ -8,10 +8,12 @@ if not wk_status_ok then
     return
 end
 
+telescope.setup { defaults = { file_ignore_patterns = { ".git/" } } }
+
 wk.register({
     ["<leader>t"] = {
         name = '+Telescope',
-        f = { ':Telescope find_files hidden=true<CR>', 'find files' },
+        f = { ':Telescope find_files find_command=rg,--ignore,--hidden,--files prompt_prefix=🔍<CR>', 'find files' },
         r = { ':Telescope file_browser<CR>', 'file browser' },
         g = { ':Telescope git_files<CR>', 'git files' },
         l = { ':Telescope live_grep<CR>', 'live grep' },
