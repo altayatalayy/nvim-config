@@ -35,7 +35,7 @@ local options = {
     smarttab = true,
     smartindent = true,
     wrap = false,
-    scrolloff = 8, -- fix scrool
+    scrolloff = 8, -- fix scroll
     sidescrolloff = 8,
     clipboard = 'unnamedplus',
     signcolumn = 'yes',
@@ -51,7 +51,12 @@ local options = {
     joinspaces = false, -- fix joining lines, dont insert extra space in between elements
     virtualedit = 'block', -- allow cursor to move any where while in visual block (ctrl-p)
     conceallevel = 0, -- so that `` is visible in markdown files
+    cmdheight = 0,
 }
+
+for k, v in pairs(options) do
+    vim.opt[k] = v
+end
 
 vim.opt.spelllang:append "cjk" -- disable spellchecking for asian characters (VIM algorithm does not support it)
 vim.opt.shortmess:append "c" -- don't show redundant messages from ins-completion-menu
@@ -64,13 +69,9 @@ vim.cmd([[ set listchars+=trail:• ]])
 
 vim.cmd([[ set whichwrap=b,h,l,s,<,>,[,],~ ]]) -- cross line boundaries with <BS>/h/l/<Left>/<Right>/<Space>
 
-vim.cmd([[ command! -nargs=* W wa ]]) -- -> :W = :w
+vim.cmd([[ command! -nargs=* W wa ]]) -- -> :W = :wa
 vim.cmd([[ command! -nargs=* Q qa ]]) -- -> :Q = :qa
 
-
-for k, v in pairs(options) do
-    vim.opt[k] = v
-end
 
 -- fix create a new line with comments
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
