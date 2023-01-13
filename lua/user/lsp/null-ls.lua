@@ -35,5 +35,7 @@ null_ls.setup({
         diagnostics.gitlint,
         -- docker
         diagnostics.hadolint,
+        -- xml
+        formatting.xmlformat
     }
 })

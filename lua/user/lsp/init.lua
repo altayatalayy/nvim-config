@@ -18,10 +18,13 @@ if not mason_lspconfig_status_ok then
     return
 end
 
-local status, saga = pcall(require, "lspsaga")
-if (not status) then return end
-saga.init_lsp_saga()
+local saga_status, saga = pcall(require, "lspsaga")
+if (not saga_status) then return end
+saga.setup({})
 
+local neodev_status, neodev = pcall(require, "neodev")
+if (not neodev_status) then return end
+neodev.setup()
 
 
 local on_attach = function(client, bufnr)
@@ -94,6 +97,7 @@ local all_mason = {}
 vim.list_extend(all_mason, servers)
 vim.list_extend(all_mason, { 'jdtls' })
 
+
 mason.setup({
     ui = {
         icons = {
@@ -111,13 +115,10 @@ for _, lsp in ipairs(servers) do
         capabilities = capabilities,
     }
 
-    local config = {}
-
-    if lsp == 'sumneko_lua' then
-        config = require('user.lsp.server-settings.sumneko_lua')
+    local status, config = pcall(require, 'user.lsp.server-settings' .. lsp)
+    if status then
+        for k, v in pairs(config) do server_config[k] = v end
     end
-
-    for k, v in pairs(config) do server_config[k] = v end
 
     lspconfig[lsp].setup(server_config)
 end

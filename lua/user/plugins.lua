@@ -1,8 +1,7 @@
 local ensure_packer = function()
-    local fn = vim.fn
-    local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-    if fn.empty(fn.glob(install_path)) > 0 then
-        fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+    local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+    if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+        vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
         vim.cmd [[packadd packer.nvim]]
         return true
     end
@@ -20,10 +19,9 @@ end
 vim.cmd([[
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
   augroup end
 ]])
-
 
 packer.init {
     display = {
@@ -50,66 +48,26 @@ end
 pcall(setup)
 
 return packer.startup(function(use)
-    use {
-        'wbthomason/packer.nvim',
-        --[[ commit = "", ]]
-    }
+    use { 'wbthomason/packer.nvim', }
 
-    use {
-        'lewis6991/impatient.nvim',
-        --[[ commit = "", ]]
-    }
+    use { 'lewis6991/impatient.nvim', }
 
-    use {
-        'mbbill/undotree'
-    }
+    use { 'mbbill/undotree' }
 
-    use {
-        'pearofducks/ansible-vim',
-        --[[ commit = "" ]]
-    } -- Detect Ansible files
+    use { 'gpanders/editorconfig.nvim', }
 
-    use {
-        'gpanders/editorconfig.nvim',
-        --[[ commit = "" ]]
-    }
+    use { 'rcarriga/nvim-notify', }
 
-    use {
-        'rcarriga/nvim-notify',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'kyazdani42/nvim-web-devicons'
-    }
+    use { 'kyazdani42/nvim-web-devicons' }
 
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-        --[[ commit = "", ]]
     }
 
-    use {
-        'folke/tokyonight.nvim',
-        --[[ commit = "", ]]
-    }
+    use { 'folke/tokyonight.nvim', }
 
-    use {
-        "lukas-reineke/indent-blankline.nvim",
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'sindrets/diffview.nvim',
-        requires = 'nvim-lua/plenary.nvim',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'nvim-treesitter/nvim-treesitter',
-        { run = ':TSUpdate' },
-        --[[ commit = "", ]]
-    }
+    use { "lukas-reineke/indent-blankline.nvim", }
 
     use {
         'kyazdani42/nvim-tree.lua',
@@ -117,23 +75,25 @@ return packer.startup(function(use)
             'kyazdani42/nvim-web-devicons', -- optional, for file icons
         },
     }
+    use {
+        'sindrets/diffview.nvim',
+        requires = 'nvim-lua/plenary.nvim',
+    }
+
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        run = ':TSUpdate',
+    }
 
     use {
         'm-demare/hlargs.nvim',
         requires = { 'nvim-treesitter/nvim-treesitter' },
         config = function() require('hlargs').setup() end,
-        --[[ commit = "", ]]
     }
 
-    use {
-        'numToStr/Comment.nvim',
-        --[[ commit = "", ]]
-    }
+    use { 'numToStr/Comment.nvim', }
 
-    use {
-        'JoosepAlviste/nvim-ts-context-commentstring',
-        --[[ commit = "", ]]
-    }
+    use { 'JoosepAlviste/nvim-ts-context-commentstring', }
 
     use {
         "windwp/nvim-autopairs",
@@ -156,225 +116,105 @@ return packer.startup(function(use)
     }
 
 
-    use {
-        'lewis6991/gitsigns.nvim',
-        --[[ commit = "", ]]
-    }
+    use { 'lewis6991/gitsigns.nvim', }
 
     use {
         "folke/trouble.nvim",
         requires = "kyazdani42/nvim-web-devicons",
-        --[[ commit = "", ]]
     }
 
     use {
         'j-hui/fidget.nvim',
         config = function() require "fidget".setup {} end,
-        --[[ commit = "", ]]
     } -- UI for nvim-lsp progress
-
     use { "glepnir/lspsaga.nvim", }
+    use { "williamboman/mason.nvim", }
+    use { "williamboman/mason-lspconfig.nvim", }
+    use { "neovim/nvim-lspconfig", }
+    use { 'onsails/lspkind.nvim', }
 
-    use {
-        "williamboman/mason.nvim",
-        --[[ commit = "", ]]
-    }
-    use {
-        "williamboman/mason-lspconfig.nvim",
-        --[[ commit = "", ]]
-    }
+    use { "RRethy/vim-illuminate", } -- highlighting other uses of the word under the cursor
 
-    use {
-        "neovim/nvim-lspconfig",
-        --[[ commit = "", ]]
-    }
-
-    use {
-        "RRethy/vim-illuminate",
-        --[[ commit = "", ]]
-    } -- highlighting other uses of the word under the cursor
-
-    use {
-        'onsails/lspkind.nvim',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'mfussenegger/nvim-jdtls',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'simrat39/rust-tools.nvim',
-        --[[ commit = "", ]]
-    }
+    -- language specific plugins
+    use "folke/neodev.nvim"
+    use { 'mfussenegger/nvim-jdtls', }
+    use { 'simrat39/rust-tools.nvim', }
+    use { 'pearofducks/ansible-vim', } -- Detect Ansible files
 
     -- Completion
-    use {
-        'hrsh7th/cmp-nvim-lsp',
-        --[[ commit = "", ]]
-    }
-    use {
-        'hrsh7th/cmp-nvim-lsp-signature-help',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'hrsh7th/cmp-nvim-lua',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'hrsh7th/cmp-buffer',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'hrsh7th/cmp-path',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'hrsh7th/cmp-cmdline',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'hrsh7th/nvim-cmp',
-        --[[ commit = "", ]]
-    }
-
+    use { 'hrsh7th/cmp-nvim-lsp', }
+    use { 'hrsh7th/cmp-nvim-lsp-signature-help', }
+    use { 'hrsh7th/cmp-nvim-lua', }
+    use { 'hrsh7th/cmp-buffer', }
+    use { 'hrsh7th/cmp-path', }
+    use { 'hrsh7th/cmp-cmdline', }
+    use { 'hrsh7th/nvim-cmp', }
     use {
         "petertriho/cmp-git",
         requires = "nvim-lua/plenary.nvim",
-        --[[ commit = "", ]]
-    }
-
-    -- Lua snip
-    use {
-        'L3MON4D3/LuaSnip',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'saadparwaiz1/cmp_luasnip',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        "rafamadriz/friendly-snippets",
-        --[[ commit = "", ]]
-    }
+    } 
+    -- Lua snip 
+    use { 'L3MON4D3/LuaSnip', }
+    use { 'saadparwaiz1/cmp_luasnip', }
+    use { "rafamadriz/friendly-snippets", }
 
     -- Linting
     use {
         'jose-elias-alvarez/null-ls.nvim',
         requires = 'nvim-lua/plenary.nvim',
-        --[[ commit = "", ]]
     }
 
     -- Telescope
     use {
         'nvim-telescope/telescope.nvim',
-        requires = { { 'nvim-lua/plenary.nvim' } },
-        --[[ commit = "", ]]
+        requires = { 'nvim-lua/plenary.nvim' },
     }
-
     use {
         'nvim-telescope/telescope-fzf-native.nvim',
         run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
-        --[[ commit = "", ]]
     }
-
-    use {
-        "nvim-telescope/telescope-file-browser.nvim",
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'nvim-telescope/telescope-ui-select.nvim',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'camgraff/telescope-tmux.nvim',
-        --[[ commit = "", ]]
-    }
-
+    use { "nvim-telescope/telescope-file-browser.nvim", }
+    use { 'nvim-telescope/telescope-ui-select.nvim', }
+    use { 'camgraff/telescope-tmux.nvim', }
     use {
         "AckslD/nvim-neoclip.lua",
         requires = {
             { 'nvim-telescope/telescope.nvim' },
         },
         config = function() require('neoclip').setup() end,
-        --[[ commit = "", ]]
     }
-
-    use {
-        'nvim-telescope/telescope-media-files.nvim',
-        --[[ commit = "", ]]
-    }
+    use { 'nvim-telescope/telescope-media-files.nvim', }
 
     -- Dap
-    use {
-        'mfussenegger/nvim-dap',
-        --[[ commit = "", ]]
-    }
+    use { 'mfussenegger/nvim-dap', }
+    use { 'rcarriga/nvim-dap-ui', }
+    use { 'mfussenegger/nvim-dap-python', }
+    use { 'theHamsta/nvim-dap-virtual-text', }
+    use { 'nvim-telescope/telescope-dap.nvim', }
 
-    use {
-        'rcarriga/nvim-dap-ui',
-        --[[ commit = "", ]]
-    }
+    use { 'phaazon/hop.nvim', }
 
-    use {
-        'mfussenegger/nvim-dap-python',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'theHamsta/nvim-dap-virtual-text',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'nvim-telescope/telescope-dap.nvim',
-        --[[ commit = "", ]]
-    }
-
-    use {
-        'phaazon/hop.nvim',
-        --[[ commit = "", ]]
-    }
-
-
-    use {
-        'norcalli/nvim-colorizer.lua',
-        --[[ commit = "", ]]
-    }
+    use { 'norcalli/nvim-colorizer.lua', }
 
     use {
         'akinsho/bufferline.nvim',
         tag = "v2.*",
         requires = 'kyazdani42/nvim-web-devicons',
-        --[[ commit = "", ]]
     }
 
     use {
         "iamcco/markdown-preview.nvim",
         run = "cd app && npm install",
         ft = { "markdown" },
-        --[[ commit = "", ]]
     }
 
     use {
         "akinsho/toggleterm.nvim",
         tag = 'v2.*',
-        --[[ commit = "", ]]
     }
     use {
         'kevinhwang91/nvim-ufo',
         requires = 'kevinhwang91/promise-async',
-        --[[ commit = "", ]]
     }
 
     use {
@@ -384,14 +224,11 @@ return packer.startup(function(use)
         end
     }
 
-    use {
-        'folke/which-key.nvim',
-        --[[ commit = "", ]]
-    }
+    use { 'folke/which-key.nvim', }
 
-    use {
-        'tpope/vim-surround'
-        --[[ commit = "", ]]
-    }
+    use { 'tpope/vim-surround' }
+    if packer_bootstrap then
+        require('packer').sync()
+    end
 
 end)
