@@ -73,23 +73,16 @@ capabilities.textDocument.foldingRange = {
 
 local servers = {
     'pyright',
-    'gopls',
     'clangd',
     'cmake',
     'sumneko_lua',
     'html',
     'cssls',
     'awk_ls',
-    'eslint',
-    'tsserver',
     'rust_analyzer',
     'texlab',
-    'yamlls',
     'marksman',
     'bashls',
-    'ansiblels',
-    'tailwindcss',
-    'astro',
 }
 
 local all_mason = {}
