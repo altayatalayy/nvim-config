@@ -21,6 +21,14 @@ end
 require("luasnip.loaders.from_vscode").lazy_load()
 cmp_git.setup()
 
+local status_ok, cmp_autopairs = pcall(require, 'nvim-autopairs.completion.cmp')
+if not status_ok then return end
+
+cmp.event:on(
+    'confirm_done',
+    cmp_autopairs.on_confirm_done()
+)
+
 cmp.setup({
     window = {
         completion = cmp.config.window.bordered(),
