@@ -88,7 +88,9 @@ return packer.startup(function(use)
         config = function()
             local status_ok, treesitter = pcall(require, 'nvim-treesitter')
             if not status_ok then return end
-            require('hlargs').setup()
+            local status_ok, hlargs = pcall(require, 'hlargs')
+            if not status_ok then return end
+            hlargs.setup()
         end,
     }
 
