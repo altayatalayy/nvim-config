@@ -82,7 +82,10 @@ return packer.startup(function(use)
 
     use {
         'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate',
+        run = function()
+            local ts_update = require('nvim-treesitter.install').update({ with_sync = false })
+            ts_update()
+        end,
     }
 
     use {
@@ -110,9 +113,6 @@ return packer.startup(function(use)
 
     use {
         'windwp/nvim-ts-autotag',
-        config = function()
-            require('nvim-ts-autotag').setup()
-        end
     }
 
 
@@ -152,8 +152,8 @@ return packer.startup(function(use)
     use {
         "petertriho/cmp-git",
         requires = "nvim-lua/plenary.nvim",
-    } 
-    -- Lua snip 
+    }
+    -- Lua snip
     use { 'L3MON4D3/LuaSnip', }
     use { 'saadparwaiz1/cmp_luasnip', }
     use { "rafamadriz/friendly-snippets", }
