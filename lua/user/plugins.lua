@@ -35,12 +35,6 @@ packer.reset()
 
 local setup = function()
     vim.cmd("colorscheme tokyonight-night")
-    vim.notify = function(msg, ...)
-        if msg:match("warning: multiple different client offset_encodings") then
-            return
-        end
-        require("notify")(msg, ...)
-    end
     vim.g.mkdp_filetypes = { "markdown" }
 end
 
@@ -91,7 +85,10 @@ return packer.startup(function(use)
     use {
         'm-demare/hlargs.nvim',
         requires = { 'nvim-treesitter/nvim-treesitter' },
-        config = function() require('hlargs').setup() end,
+        config = function() 
+            local status_ok, treesitter = pcall(require, 'nvim-treesitter')
+            if not status_ok then return end
+            require('hlargs').setup() end,
     }
 
     use { 'numToStr/Comment.nvim', }
@@ -123,7 +120,11 @@ return packer.startup(function(use)
 
     use {
         'j-hui/fidget.nvim',
-        config = function() require "fidget".setup {} end,
+        config = function() 
+            local status_ok, fidget = pcall(require, "fidget")
+            if not status_ok then return end
+            fidget.setup {}
+        end,
     } -- UI for nvim-lsp progress
     use { "glepnir/lspsaga.nvim", }
     use { "williamboman/mason.nvim", }
