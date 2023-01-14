@@ -105,9 +105,13 @@ return packer.startup(function(use)
         end
     }
 
-    use {
-        'windwp/nvim-ts-autotag',
-    }
+    local status_ok, treesitter = pcall(require, 'nvim-treesitter')
+    if status_ok then
+        use {
+            'windwp/nvim-ts-autotag',
+            requires = { 'nvim-treesitter/nvim-treesitter' },
+        }
+    end
 
 
     use { 'lewis6991/gitsigns.nvim', }
