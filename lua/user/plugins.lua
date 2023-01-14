@@ -85,10 +85,11 @@ return packer.startup(function(use)
     use {
         'm-demare/hlargs.nvim',
         requires = { 'nvim-treesitter/nvim-treesitter' },
-        config = function() 
+        config = function()
             local status_ok, treesitter = pcall(require, 'nvim-treesitter')
             if not status_ok then return end
-            require('hlargs').setup() end,
+            require('hlargs').setup()
+        end,
     }
 
     use { 'numToStr/Comment.nvim', }
@@ -98,7 +99,7 @@ return packer.startup(function(use)
     use {
         "windwp/nvim-autopairs",
         config = function()
-            local status_ok, autopairs = pcall(require,"nvim-autopairs")
+            local status_ok, autopairs = pcall(require, "nvim-autopairs")
             if not status_ok then return end
             autopairs.setup {}
         end
@@ -122,7 +123,7 @@ return packer.startup(function(use)
 
     use {
         'j-hui/fidget.nvim',
-        config = function() 
+        config = function()
             local status_ok, fidget = pcall(require, "fidget")
             if not status_ok then return end
             fidget.setup {}
@@ -143,16 +144,37 @@ return packer.startup(function(use)
     use { 'pearofducks/ansible-vim', } -- Detect Ansible files
 
     -- Completion
-    use { 'hrsh7th/cmp-nvim-lsp', }
-    use { 'hrsh7th/cmp-nvim-lsp-signature-help', }
-    use { 'hrsh7th/cmp-nvim-lua', }
-    use { 'hrsh7th/cmp-buffer', }
-    use { 'hrsh7th/cmp-path', }
-    use { 'hrsh7th/cmp-cmdline', }
-    use { 'hrsh7th/nvim-cmp', }
+    use { 'hrsh7th/nvim-cmp' }
+    use {
+        'hrsh7th/cmp-nvim-lsp',
+        requires = 'hrsh7th/nvim-cmp'
+    }
+    use {
+        'hrsh7th/cmp-nvim-lsp-signature-help',
+        requires = 'hrsh7th/nvim-cmp'
+    }
+    use {
+        'hrsh7th/cmp-nvim-lua',
+        requires = 'hrsh7th/nvim-cmp'
+    }
+    use {
+        'hrsh7th/cmp-buffer',
+        requires = 'hrsh7th/nvim-cmp'
+    }
+    use {
+        'hrsh7th/cmp-path',
+        requires = 'hrsh7th/nvim-cmp'
+    }
+    use {
+        'hrsh7th/cmp-cmdline',
+        requires = 'hrsh7th/nvim-cmp'
+    }
     use {
         "petertriho/cmp-git",
-        requires = "nvim-lua/plenary.nvim",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            'hrsh7th/nvim-cmp',
+        }
     }
     -- Lua snip
     use { 'L3MON4D3/LuaSnip', }
@@ -168,6 +190,7 @@ return packer.startup(function(use)
     -- Telescope
     use {
         'nvim-telescope/telescope.nvim',
+        tag = '0.1.0',
         requires = { 'nvim-lua/plenary.nvim' },
     }
     use {
@@ -182,7 +205,7 @@ return packer.startup(function(use)
         requires = {
             { 'nvim-telescope/telescope.nvim' },
         },
-        config = function() 
+        config = function()
             local status_ok, neoclip = pcall(require, 'neoclip')
             if not status_ok then return end
             neoclip.setup()
