@@ -98,7 +98,9 @@ return packer.startup(function(use)
     use {
         "windwp/nvim-autopairs",
         config = function()
-            require("nvim-autopairs").setup {}
+            local status_ok, autopairs = pcall(require,"nvim-autopairs")
+            if not status_ok then return end
+            autopairs.setup {}
         end
     }
 
