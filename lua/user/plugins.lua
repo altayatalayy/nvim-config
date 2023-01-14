@@ -19,7 +19,7 @@ end
 vim.cmd([[
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
   augroup end
 ]])
 
@@ -182,7 +182,11 @@ return packer.startup(function(use)
         requires = {
             { 'nvim-telescope/telescope.nvim' },
         },
-        config = function() require('neoclip').setup() end,
+        config = function() 
+            local status_ok, neoclip = pcall(require, 'neoclip')
+            if not status_ok then return end
+            neoclip.setup()
+        end,
     }
     use { 'nvim-telescope/telescope-media-files.nvim', }
 
@@ -221,8 +225,6 @@ return packer.startup(function(use)
     use {
         'goolord/alpha-nvim',
         requires = { 'kyazdani42/nvim-web-devicons' },
-        config = function()
-        end
     }
 
     use { 'folke/which-key.nvim', }
