@@ -19,7 +19,7 @@ end
 vim.cmd([[
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
   augroup end
 ]])
 
@@ -35,12 +35,6 @@ packer.reset()
 
 local setup = function()
     vim.cmd("colorscheme tokyonight-night")
-    vim.notify = function(msg, ...)
-        if msg:match("warning: multiple different client offset_encodings") then
-            return
-        end
-        require("notify")(msg, ...)
-    end
     vim.g.mkdp_filetypes = { "markdown" }
 end
 
@@ -82,13 +76,22 @@ return packer.startup(function(use)
 
     use {
         'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate',
+        run = function()
+            local ts_update = require('nvim-treesitter.install').update({ with_sync = false })
+            ts_update()
+        end,
     }
 
     use {
         'm-demare/hlargs.nvim',
         requires = { 'nvim-treesitter/nvim-treesitter' },
-        config = function() require('hlargs').setup() end,
+        config = function()
+            local status_ok, treesitter = pcall(require, 'nvim-treesitter')
+            if not status_ok then return end
+            local status_ok, hlargs = pcall(require, 'hlargs')
+            if not status_ok then return end
+            hlargs.setup()
+        end,
     }
 
     use { 'numToStr/Comment.nvim', }
@@ -98,22 +101,19 @@ return packer.startup(function(use)
     use {
         "windwp/nvim-autopairs",
         config = function()
-            require("nvim-autopairs").setup {}
-            local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-            local cmp = require('cmp')
-            cmp.event:on(
-                'confirm_done',
-                cmp_autopairs.on_confirm_done()
-            )
+            local status_ok, autopairs = pcall(require, "nvim-autopairs")
+            if not status_ok then return end
+            autopairs.setup {}
         end
     }
 
-    use {
-        'windwp/nvim-ts-autotag',
-        config = function()
-            require('nvim-ts-autotag').setup()
-        end
-    }
+    local status_ok, treesitter = pcall(require, 'nvim-treesitter')
+    if status_ok then
+        use {
+            'windwp/nvim-ts-autotag',
+            requires = { 'nvim-treesitter/nvim-treesitter' },
+        }
+    end
 
 
     use { 'lewis6991/gitsigns.nvim', }
@@ -125,7 +125,11 @@ return packer.startup(function(use)
 
     use {
         'j-hui/fidget.nvim',
-        config = function() require "fidget".setup {} end,
+        config = function()
+            local status_ok, fidget = pcall(require, "fidget")
+            if not status_ok then return end
+            fidget.setup {}
+        end,
     } -- UI for nvim-lsp progress
     use { "glepnir/lspsaga.nvim", }
     use { "williamboman/mason.nvim", }
@@ -142,18 +146,39 @@ return packer.startup(function(use)
     use { 'pearofducks/ansible-vim', } -- Detect Ansible files
 
     -- Completion
-    use { 'hrsh7th/cmp-nvim-lsp', }
-    use { 'hrsh7th/cmp-nvim-lsp-signature-help', }
-    use { 'hrsh7th/cmp-nvim-lua', }
-    use { 'hrsh7th/cmp-buffer', }
-    use { 'hrsh7th/cmp-path', }
-    use { 'hrsh7th/cmp-cmdline', }
-    use { 'hrsh7th/nvim-cmp', }
+    use { 'hrsh7th/nvim-cmp' }
+    use {
+        'hrsh7th/cmp-nvim-lsp',
+        requires = 'hrsh7th/nvim-cmp'
+    }
+    use {
+        'hrsh7th/cmp-nvim-lsp-signature-help',
+        requires = 'hrsh7th/nvim-cmp'
+    }
+    use {
+        'hrsh7th/cmp-nvim-lua',
+        requires = 'hrsh7th/nvim-cmp'
+    }
+    use {
+        'hrsh7th/cmp-buffer',
+        requires = 'hrsh7th/nvim-cmp'
+    }
+    use {
+        'hrsh7th/cmp-path',
+        requires = 'hrsh7th/nvim-cmp'
+    }
+    use {
+        'hrsh7th/cmp-cmdline',
+        requires = 'hrsh7th/nvim-cmp'
+    }
     use {
         "petertriho/cmp-git",
-        requires = "nvim-lua/plenary.nvim",
-    } 
-    -- Lua snip 
+        requires = {
+            "nvim-lua/plenary.nvim",
+            'hrsh7th/nvim-cmp',
+        }
+    }
+    -- Lua snip
     use { 'L3MON4D3/LuaSnip', }
     use { 'saadparwaiz1/cmp_luasnip', }
     use { "rafamadriz/friendly-snippets", }
@@ -167,6 +192,7 @@ return packer.startup(function(use)
     -- Telescope
     use {
         'nvim-telescope/telescope.nvim',
+        tag = '0.1.0',
         requires = { 'nvim-lua/plenary.nvim' },
     }
     use { "nvim-telescope/telescope-file-browser.nvim", }
@@ -177,7 +203,11 @@ return packer.startup(function(use)
         requires = {
             { 'nvim-telescope/telescope.nvim' },
         },
-        config = function() require('neoclip').setup() end,
+        config = function()
+            local status_ok, neoclip = pcall(require, 'neoclip')
+            if not status_ok then return end
+            neoclip.setup()
+        end,
     }
     use { 'nvim-telescope/telescope-media-files.nvim', }
 
@@ -216,8 +246,6 @@ return packer.startup(function(use)
     use {
         'goolord/alpha-nvim',
         requires = { 'kyazdani42/nvim-web-devicons' },
-        config = function()
-        end
     }
 
     use { 'folke/which-key.nvim', }

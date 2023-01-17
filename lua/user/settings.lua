@@ -12,6 +12,7 @@ end
 
 local options = {
     termguicolors = true,
+    fileencoding = 'utf-8',
     undofile = true, -- Enable persistent undo
     updatetime = 100, -- faster completion (default 4000ms)
     timeoutlen = 150, -- key combination timeout
@@ -78,4 +79,14 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
     callback = function()
         vim.opt.formatoptions:remove({ 'c', 'r', 'o' })
     end,
+})
+
+-- highight yanked text
+vim.api.nvim_create_autocmd('TextYankPost', {
+    callback = function() 
+        vim.highlight.on_yank({
+            higroup = 'IncSearch',
+            timeout = 200,
+        })
+    end 
 })
