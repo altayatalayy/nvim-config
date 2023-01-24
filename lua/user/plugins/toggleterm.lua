@@ -3,7 +3,9 @@ return {
     dependencies = {
         'folke/which-key.nvim',
     },
-    keys = "<leader>T",
+    keys = {
+        {"<leader>T", "", desc = 'ToggleTerm'}
+    },
     tag = 'v2.2.1',
     config = function()
         local status_ok, toggleterm = pcall(require, 'toggleterm')

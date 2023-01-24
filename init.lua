@@ -1,5 +1,7 @@
 require('user.settings')
+require('user.keymaps')
 
+-- clone lazy and add it to the rtp
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
@@ -13,9 +15,5 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local status_ok, lazy = pcall(require, 'lazy')
-if not status_ok then return end
-
-lazy.setup('user.plugins')
-
-require('user.keymaps')
+-- setup plugins
+require('lazy').setup('user.plugins')
