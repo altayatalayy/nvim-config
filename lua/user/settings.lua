@@ -7,6 +7,7 @@ if #vim.api.nvim_list_uis() == 0 then
     vim.opt.cmdheight = 9999 -- helps avoiding |hit-enter| prompts.
     vim.opt.columns = 9999 -- set the widest screen possible
     vim.opt.swapfile = false -- don't use a swap file
+    vim.opt.termguicolors = true
     return
 end
 
@@ -53,6 +54,7 @@ local options = {
     virtualedit = 'block', -- allow cursor to move any where while in visual block (ctrl-p)
     conceallevel = 0, -- so that `` is visible in markdown files
     cmdheight = 0,
+    completeopt = { "menu", "menuone", "noselect" },
 }
 
 for k, v in pairs(options) do
@@ -90,3 +92,5 @@ vim.api.nvim_create_autocmd('TextYankPost', {
         })
     end 
 })
+
+vim.g.mkdp_filetypes = { "markdown" }

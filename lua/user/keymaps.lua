@@ -1,33 +1,26 @@
-local wk_status_ok, wk = pcall(require, "which-key")
-if not wk_status_ok then
-    return
-end
+--[[ local wk_status_ok, wk = pcall(require, "which-key") ]]
+--[[ if not wk_status_ok then ]]
+--[[     return ]]
+--[[ end ]]
 
+vim.keymap.set("n", "s", ":HopChar1<CR>", { desc = 'HopChar1' })
+vim.keymap.set("n", "sw", ":HopWord<CR>", { desc = 'HopWord' })
+vim.keymap.set("n", "<C-p>", "<Plug>MarkdownPreviewToggle", { desc = 'MarkdownPreviewToggle' })
+vim.keymap.set("n", "<C-S>", ":%s/", { desc = '' })
 -- Mappings.
-wk.register({
-    s = { ":HopChar1<CR>", 'HopChar1' },
-    sw = { ":HopWord<CR>", 'HopWord' },
 
-    ['<leader>w'] = {
-        name = '+Window',
-        ['|'] = { ':vs<CR>', 'vertical split' },
-        ['-'] = { ':sp<CR>', 'horizontal split' },
-        t = { ':tabnew %<CR>', 'tabnew' },
-        n = { ':tabnext<CR>', 'tabnext' },
-        p = { ':tabprev<CR>', 'tabprev' },
-        l = { '<C-W><C-L>', 'right' },
-        h = { '<C-W><C-H>', 'left' },
-        k = { '<C-W><C-K>', 'up' },
-        j = { '<C-W><C-J>', 'down' },
-    },
-
-    ["<C-p>"] = { "<Plug>MarkdownPreviewToggle", 'MarkdownPreviewToggle' },
-    ['<C-S>'] = { ':%s/', '' },
-}, { mode = 'n', silent = true, noremap = true, })
-
-wk.register({
-    ["<Esc>"] = { "<C-\\><C-n>", '' },
-}, { mode = 't', silent = true, noremap = true, })
+--['|'] = { ':vs<CR>', 'vertical split' },
+--['-'] = { ':sp<CR>', 'horizontal split' },
+--t = { ':tabnew %<CR>', 'tabnew' },
+--n = { ':tabnext<CR>', 'tabnext' },
+--p = { ':tabprev<CR>', 'tabprev' },
+--l = { '<C-W><C-L>', 'right' },
+--h = { '<C-W><C-H>', 'left' },
+--k = { '<C-W><C-K>', 'up' },
+--j = { '<C-W><C-J>', 'down' },
+--wk.register({
+--    ["<Esc>"] = { "<C-\\><C-n>", '' },
+--}, { mode = 't', silent = true, noremap = true, })
 
 -- Move text up and down
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'move text down' })
