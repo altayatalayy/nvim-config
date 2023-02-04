@@ -2,7 +2,7 @@ return {
     'akinsho/bufferline.nvim',
     tag = 'v3.1.0',
     dependencies = 'nvim-tree/nvim-web-devicons',
-    --event = "VeryLazy",
+    event = "VeryLazy",
     config = function ()
         local status_ok, bufferline = pcall(require, 'bufferline')
         if not status_ok then

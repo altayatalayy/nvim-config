@@ -17,4 +17,5 @@ return {
     'ansiblels',
     'tailwindcss',
     'astro',
+    'terraformls',
 }

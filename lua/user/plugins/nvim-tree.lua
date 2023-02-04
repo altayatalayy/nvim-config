@@ -8,8 +8,8 @@ return {
         {'<leader>nt', function () require('nvim-tree').toggle() end, desc = 'toggle' },
     },
     ft = {"netrw"},
-    --event = "VeryLazy",
-    lazy = false,
+    event = "VeryLazy",
+    --lazy = false,
     config = function ()
         local status_ok, nvimtree = pcall(require, "nvim-tree")
         if not status_ok then return end
