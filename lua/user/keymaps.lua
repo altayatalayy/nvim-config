@@ -51,8 +51,16 @@ vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 ]] --
--- find and replace the word under the cursor
+
+vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, {desc = "open netrw"})
+
+-- find and replace the word under the cursor, global
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'replace cur word' })
+-- find and replace the word under the cursor, current line, cok sacma oldu ama visualla secip yapmak mantikli olabilir
+vim.keymap.set("n", "<leader>S", [[:.s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'replace cur word' })
 
 -- make current file executable
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = 'make file exec' })
+
+-- disable Q
+vim.keymap.set("n", "Q", "<nop>")
