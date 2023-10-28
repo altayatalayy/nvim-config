@@ -3,12 +3,13 @@ return {
     'gopls',
     'clangd',
     'cmake',
-    'sumneko_lua',
+    'lua_ls',
     'html',
     'cssls',
     'awk_ls',
     'eslint',
     'tsserver',
+    'jsonls',
     'rust_analyzer',
     'texlab',
     'yamlls',
@@ -18,4 +19,5 @@ return {
     'tailwindcss',
     'astro',
     'terraformls',
+    'hls'
 }

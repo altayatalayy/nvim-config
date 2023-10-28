@@ -48,6 +48,7 @@ return {
             ["<leader>g"] = { name = '+git' },
             ["<leader>b"] = { name = '+buffer' },
             ["<leader>w"] = { name = '+window' },
+            ["<leader>h"] = { name = '+harpoon' },
         }, 
         { mode = 'n', silent = true, noremap = true, })
     end

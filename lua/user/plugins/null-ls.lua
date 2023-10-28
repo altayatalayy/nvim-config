@@ -23,12 +23,13 @@ return {
                 -- JS
                 --[[ formatting.eslint, -- x ]]
                 -- diagnostics.eslint,
+                formatting.prettier,
                 -- ansible
                 diagnostics.ansiblelint, -- x
                 -- yaml
                 diagnostics.yamllint,
                 -- lua
-                --[[ formatting.stylua, -- x ]]
+                formatting.stylua, -- x
                 -- c/c++
                 diagnostics.cppcheck, -- x
                 -- shell
@@ -42,7 +43,7 @@ return {
                 -- docker
                 diagnostics.hadolint,
                 -- xml
-                formatting.xmlformat
+                formatting.xmlformat,
             }
         })
     end

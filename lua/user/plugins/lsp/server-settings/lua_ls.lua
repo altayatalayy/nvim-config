@@ -1,7 +1,9 @@
 local M = {
     settings = {
         Lua = {
-            workspace = { checkThirdParty = false },
+            workspace = {
+              checkThirdParty = false,
+            },
             telemetry = { enable = false },
             completion = { callSnippet = "Replace" }
         }
