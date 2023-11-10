@@ -19,5 +19,4 @@ return {
     'tailwindcss',
     'astro',
     'terraformls',
-    'hls'
 }
