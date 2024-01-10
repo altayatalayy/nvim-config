@@ -2,15 +2,13 @@ return {
 	-- Telescope
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
-		build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-		lazy = true,
+		build = "make",
 	},
 	{
 		"AckslD/nvim-neoclip.lua",
 		dependencies = {
 			{ "kkharji/sqlite.lua", module = "sqlite" },
 		},
-		lazy = true,
 		config = function()
 			local status_ok, neoclip = pcall(require, "neoclip")
 			if not status_ok then
