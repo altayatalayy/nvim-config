@@ -74,11 +74,6 @@ return {
                     additional_vim_regex_highlighting = false,
                 },
 
-                context_commentstring = {
-                    enable = true,
-                    enable_autocmd = false,
-                },
-
                 -- Enable ts-autotag
                 --[[ autotag = {
                     enable = true,
@@ -150,6 +145,7 @@ return {
         dependencies = { 'nvim-treesitter/nvim-treesitter' },
         event = "VeryLazy",
         config = function ()
+            vim.g.skip_ts_context_commentstring_module = true
             require('ts_context_commentstring').setup {}
         end
     },

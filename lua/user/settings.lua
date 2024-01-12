@@ -17,7 +17,7 @@ local options = {
 	fileencoding = "utf-8",
 	
     updatetime = 100, -- faster completion (default 4000ms)
-	timeoutlen = 150, -- key combination timeout
+	timeoutlen = 250, -- key combination timeout
 
 	pumheight = 10, -- pop up menu height
 	showmode = false, -- we don't need to see things like -- INSERT -- anymore
